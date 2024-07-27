@@ -1,50 +1,55 @@
 /*
     PRINT LIBRARY
-    Use for print log in terminal with formated style
+    Use for print log in terminal with formatted style
 */
+
+#ifndef PRINT_HPP
+#define PRINT_HPP
+
+#include <algorithm>
 #include <iostream>
 #include <string>
-#include <algorithm>
-using namespace std;
 
-void upcase(string &str)
-{
-    transform(str.begin(), str.end(),str.begin(), ::toupper);
-}
+namespace print {
 
-void printError(string messages)
-{
-    cout << "\x1B[31m[ERROR]\033[0m - " << messages << endl;
+inline void upcase(std::string &str) {
+  std::transform(str.begin(), str.end(), str.begin(), ::toupper);
 }
 
-void printInfo(string messages)
-{
-    cout << "\x1B[94m[INFO ]\033[0m - "<< messages << endl;
+inline void error(const std::string &message) {
+  std::cout << "\x1B[31m[ERROR]\033[0m - " << message << std::endl;
 }
 
-void printDone(string messages)
-{
-    cout << "\x1B[32m[DONE ]\033[0m - "<< messages << endl;
+inline void info(const std::string &message) {
+  std::cout << "\x1B[94m[INFO ]\033[0m - " << message << std::endl;
 }
 
-void printQA(string messages)
-{
-    cout << "\x1B[33m[Q & A]\033[0m - "<< messages << endl;
+inline void done(const std::string &message) {
+  std::cout << "\x1B[32m[DONE ]\033[0m - " << message << std::endl;
 }
 
-void printLoading(string messages)
-{
-    cout << "\x1B[36m[LOAD ]\033[0m - "<< messages << endl;
+inline void qa(const std::string &message) {
+  std::cout << "\x1B[33m[Q & A]\033[0m - " << message << std::endl;
 }
 
-void printCustom(string title, string messages, string color_code)
-{
-    upcase(title);
-    title.resize(5);
-    string tempStr = "\x1B[" + color_code + "m[" + title + "]\033[0m - ";
-    cout << tempStr << messages << endl;
+inline void loading(const std::string &message) {
+  std::cout << "\x1B[36m[LOAD ]\033[0m - " << message << std::endl;
 }
-void printTxt(string messages)
-{
-    cout << messages << endl;
+
+inline void custom(const std::string &title, const std::string &message,
+                   const std::string &color_code) {
+  std::string temp_title = title;
+  upcase(temp_title);
+  temp_title.resize(5);
+  std::string temp_str =
+      "\x1B[" + color_code + "m[" + temp_title + "]\033[0m - ";
+  std::cout << temp_str << message << std::endl;
 }
+
+inline void text(const std::string &message) {
+  std::cout << message << std::endl;
+}
+
+} // namespace print
+
+#endif // PRINT_HPP
